@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "pages/classic/classic"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#fff000",
+    "navigationBarTitleText": "池中有鱼",
+    "navigationBarTextStyle": "black"
+  }
+}

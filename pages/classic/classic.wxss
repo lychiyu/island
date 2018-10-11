@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.chunk{
+    width: 100px;
+    height: 100px;
+    background-color: brown;
+}
+.color1{
+    background-color: yellow;
+}
+.color2{
+    background-color: gray;
+}
+.color3{
+    background-color: brown;
+}
