@@ -22,7 +22,7 @@ class Http {
             success: (res) => {
                 let statusCode = res.statusCode.toString()
                 if (statusCode.startsWith('2')) {
-                    params.success(res.data)
+                    params.success && params.success(res.data)
                 } else {
                     this._show_err(res.data.error_code)
                 }
