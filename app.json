@@ -6,13 +6,13 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "池中有鱼",
+    "navigationBarTitleText": "池鱼",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "",
-    "selectedColor": "",
-    "backgroundColor": "",
+    "color": "#c7c7c7",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
     "position": "bottom",
     "borderStyle": "black",
     "list": [
