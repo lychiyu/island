@@ -9,19 +9,32 @@ class ClassicModel extends Http {
             success: (res) => {
                 sCallback(res)
                 this._setLatestIndex(res.index)
+                // 写入缓存
+                let key = this._getKey(res.index)
+                wx.setStorageSync(key, res)
             }
         })
     }
 
-    getClassic(index, isNext, sCallback) {
-        let action = isNext ? 'next' : 'previous'
+    getClassic(index, isNext, sCallback) { 
         // 获取下一期数据
-        this.request({
-            url: '/classic/' + index + '/' + action,
-            success: (res) => {
-                sCallback(res)
-            }
-        })
+        let key = isNext? this._getKey(index+1):this._getKey(index-1)
+        let classic = wx.getStorageSync(key)    // 尝试先从缓存中获取
+        if (!classic) {
+            // 从网络请求
+            let action = isNext ? 'next' : 'previous'
+            this.request({
+                url: '/classic/' + index + '/' + action,
+                success: (res) => {
+                    // 写入缓存
+                    wx.setStorageSync(key, res)
+                    sCallback(res)
+                }
+            })
+        }else{
+            sCallback(classic)
+        }
+        
     }
 
     isFirst(index) {
@@ -42,6 +55,11 @@ class ClassicModel extends Http {
         // storage 最新期刊的index
         let index = wx.getStorageSync('latest')
         return index
+    }
+
+    _getKey(index){
+        let key = 'classic-'+index
+        return key
     }
 }
 
