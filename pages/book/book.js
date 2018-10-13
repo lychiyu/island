@@ -1,4 +1,8 @@
-// pages/book/book.js
+import {
+  BookModel
+} from '../../models/book.js'
+
+const bookModel = new BookModel()
 Page({
 
   /**
@@ -13,6 +17,33 @@ Page({
    */
   onLoad: function (options) {
 
+    const hotList = bookModel.getHotList()
+    hotList.then(
+      res => console.log(res),
+    )
+    // const promise = new Promise((resolve, reject) => {
+    //   /**
+    //    * promise 的三种状态
+    //    * pending  fulfilled rejected
+    //    * 进行中     已成功    已失败
+    //    * new时
+    //    * 
+    //    * 状态修改
+    //    * resolve：pending--->fulfilled
+    //    * reject:  fulfilled--->rejected
+    //    * 再执行了resolve()或reject()后promise的状态就凝固了不会再改变了
+    //    * 
+    //    * 通过then(successCallback, failCallback)来获取异步操作的结果
+    //    */
+    //   wx.getSystemInfo({
+    //     success: res => resolve(res),
+    //     fail: error => reject(error)
+    //   });
+    // })
+    // promise.then(
+    //   res => console.log(res),
+    //   error => console.log(error)
+    // ) 
   },
 
   /**
