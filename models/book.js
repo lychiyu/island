@@ -2,9 +2,9 @@ import {
     Http
 } from '../util/http-p.js'
 
-class BookModel extends Http{
+class BookModel extends Http {
     // 获取热门书籍数据
-    getHotList(){
+    getHotList() {
         return this.request('/book/hot_list')
     }
 
@@ -19,9 +19,19 @@ class BookModel extends Http{
     }
 
     // 获取图书短评数据
-    getComments(id){
+    getComments(id) {
         return this.request(`/book/${id}/short_comment`)
+    }
+
+    // 用户提交短评
+    postComment(id, comment) {
+        return this.request('/book/add/short_comment', {
+            book_id: id,
+            content: comment
+        }, 'POST')
     }
 }
 
-export {BookModel}
+export {
+    BookModel
+}
