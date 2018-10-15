@@ -23,29 +23,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading()
     // 接收外部传过来的数据
     const id = options.id
     const detail = bookModel.getDeatil(id)
     const likeStatus = bookModel.getLikeStatus(id)
     const comments = bookModel.getComments(id)
 
-    detail.then(res => {
+    // 使用Promise.all
+    Promise.all([detail, comments, likeStatus]).then((res)=>{
       this.setData({
-        book: res
+        book: res[0],
+        comments: res[1].comments,
+        likeStatus: res[2].like_status,
+        likeCounts: res[2].fav_nums
       })
+      wx.hideLoading()
     })
-    comments.then(res => {
-      this.setData({
-        comments: res.comments
-      })
-    })
-    likeStatus.then(res => {
-      this.setData({
-        likeStatus: res.like_status,
-        likeCounts: res.fav_nums
-      })
-    })
-
   },
 
   onLike(event) {
