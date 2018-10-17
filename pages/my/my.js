@@ -5,15 +5,50 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    authorized: false,
+    userInfo: null,
   },
 
+  onGetUserInfo(event) {
+    const userInfo = event.detail.userInfo
+    if (userInfo) {
+      this.setData({
+        userInfo,
+        authorized: true
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.userAuthorized()
+    wx.getUserInfo({
+      success: (result)=>{
+        console.log(result)
+      },
+      fail: ()=>{},
+      complete: ()=>{}
+    });
   },
+  userAuthorized() {
+    wx.getSetting({
+      success: (result)=>{
+        if (result.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success: result => {
+              this.setData({
+                authorized: true,
+                userInfo: result.userInfo
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
