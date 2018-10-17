@@ -16,10 +16,10 @@ class ClassicModel extends Http {
         })
     }
 
-    getClassic(index, isNext, sCallback) { 
+    getClassic(index, isNext, sCallback) {
         // 获取下一期数据
-        let key = isNext? this._getKey(index+1):this._getKey(index-1)
-        let classic = wx.getStorageSync(key)    // 尝试先从缓存中获取
+        let key = isNext ? this._getKey(index + 1) : this._getKey(index - 1)
+        let classic = wx.getStorageSync(key) // 尝试先从缓存中获取
         if (!classic) {
             // 从网络请求
             let action = isNext ? 'next' : 'previous'
@@ -31,10 +31,10 @@ class ClassicModel extends Http {
                     sCallback(res)
                 }
             })
-        }else{
+        } else {
             sCallback(classic)
         }
-        
+
     }
 
     isFirst(index) {
@@ -45,6 +45,13 @@ class ClassicModel extends Http {
         // 当前期刊是否是最新一期
         let latestIndex = this._getLatestIndex()
         return index == latestIndex ? true : false
+    }
+    getMyFavor(success) {
+        const params = {
+            url: '/classic/favor',
+            success: success
+        }
+        this.request(params)
     }
     _setLatestIndex(index) {
         // storage 最新期刊的index
@@ -57,8 +64,8 @@ class ClassicModel extends Http {
         return index
     }
 
-    _getKey(index){
-        let key = 'classic-'+index
+    _getKey(index) {
+        let key = 'classic-' + index
         return key
     }
 }

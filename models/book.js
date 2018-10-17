@@ -30,6 +30,12 @@ class BookModel extends Http {
             content: comment
         }, 'POST')
     }
+
+    getMyBookCount() {
+        return this.request('/book/favor/count')
+    }
+
+
 }
 
 export {

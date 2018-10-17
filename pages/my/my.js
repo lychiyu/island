@@ -1,4 +1,17 @@
-// pages/my/my.js
+import {
+  ClassicModel
+} from '../../models/classic.js'
+import {
+  BookModel
+} from '../../models/book.js'
+
+import {
+  promisic
+} from '../../util/common.js'
+
+const classicModel = new ClassicModel()
+const bookModel = new BookModel()
+
 Page({
 
   /**
@@ -24,16 +37,16 @@ Page({
   onLoad: function (options) {
     this.userAuthorized()
     wx.getUserInfo({
-      success: (result)=>{
+      success: (result) => {
         console.log(result)
       },
-      fail: ()=>{},
-      complete: ()=>{}
+      fail: () => {},
+      complete: () => {}
     });
   },
   userAuthorized() {
     wx.getSetting({
-      success: (result)=>{
+      success: (result) => {
         if (result.authSetting['scope.userInfo']) {
           wx.getUserInfo({
             success: result => {
@@ -47,8 +60,42 @@ Page({
       }
     })
   },
+  getMyFavor() {
+    classicModel.getMyFavor(res => {
+      this.setData({
+        classics: res
+      })
+    })
+  },
 
+  getMyBookCount() {
+    bookModel.getMyBookCount()
+      .then(res => {
+        this.setData({
+          bookCount: res.count
+        })
+      })
+  },
+  onJumpToAbout(event) {
+    wx.navigateTo({
+      url: '/pages/about/about',
+    })
+  },
 
+  onStudy(event) {
+    wx.navigateTo({
+      url: '/pages/course/course',
+    })
+  },
+
+  onJumpToDetail(event) {
+    const cid = event.detail.cid
+    const type = event.detail.type
+    // wx.navigateTo
+    wx.navigateTo({
+      url: `/pages/classic-detail/classic-detail?cid=${cid}&type=${type}`
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -61,7 +108,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.userAuthorized()
+    this.getMyBookCount()
+    this.getMyFavor()
   },
 
   /**
